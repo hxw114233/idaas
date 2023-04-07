@@ -1,2 +1,3 @@
 *.cjs
 dist/
+config.js
