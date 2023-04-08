@@ -1,5 +1,5 @@
 import { Secret, SignOptions } from "jsonwebtoken"
-import { Http, HttpAuthHandler } from "./http"
+import { Http } from "./http"
 import provider from "../provider"
 
 export type ServerConfig = {
@@ -14,8 +14,7 @@ export type SignConfig = {
 
 export const runner = async (serverConfig: ServerConfig, signConfig: SignConfig) => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const authHandler = new HttpAuthHandler(provider as any, signConfig.secret)
-    const server = new Http(authHandler, signConfig.signOptions)
+    const server = new Http(provider as any, signConfig.secret, signConfig.signOptions)
     if (signConfig.publicKey) {
         server.publicKey(signConfig.publicKey)
     }

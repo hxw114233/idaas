@@ -1,14 +1,14 @@
 import express, { Router } from "express"
-import { Handler } from "./handler"
-import { SignOptions } from "jsonwebtoken"
+import { Handler, Provider } from "./handler"
+import { Secret, SignOptions } from "jsonwebtoken"
 import morgan from 'morgan'
 
 export class Http {
     private readonly router: Router
 
-    constructor(authHandler: HttpAuthHandler, signOptions: SignOptions) { 
+    constructor(provider: Provider, secret: Secret, signOptions: SignOptions) { 
         this.router = express.Router()
-        this.router.post('/sign', authHandler.asRouter(signOptions))
+        this.router.post('/sign', new HttpAuthHandler(provider, secret).asRouter(signOptions))
         this.router.get('/health', (_, res) => res.sendStatus(200))
     }
 
@@ -34,7 +34,7 @@ export class Http {
 type RouterFunc =
  (req: express.Request, res: express.Response, next: express.NextFunction) => void
 
-export class HttpAuthHandler extends Handler {
+class HttpAuthHandler extends Handler {
     asRouter(signOptions: SignOptions): RouterFunc {
         return async (req, res, next) => {
             try {
