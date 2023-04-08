@@ -13,7 +13,8 @@ export type SignConfig = {
 }
 
 export const runner = async (serverConfig: ServerConfig, signConfig: SignConfig) => {
-    const authHandler = new HttpAuthHandler(provider, signConfig.secret)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const authHandler = new HttpAuthHandler(provider as any, signConfig.secret)
     const server = new Http(authHandler, signConfig.signOptions)
     if (signConfig.publicKey) {
         server.publicKey(signConfig.publicKey)

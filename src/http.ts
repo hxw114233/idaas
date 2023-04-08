@@ -31,9 +31,11 @@ export class Http {
     }
 }
 
+type RouterFunc =
+ (req: express.Request, res: express.Response, next: express.NextFunction) => void
+
 export class HttpAuthHandler extends Handler {
-    asRouter(signOptions: SignOptions): 
-    (req: express.Request, res: express.Response, next: express.NextFunction) => void {
+    asRouter(signOptions: SignOptions): RouterFunc {
         return async (req, res, next) => {
             try {
                 return await this.s(req, res, signOptions)

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { runner } from "./internal/runner";
+import { runner } from "./runner"
 import config from "../config.js"
 
 runner(
